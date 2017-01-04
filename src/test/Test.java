@@ -8,6 +8,6 @@ public class Test
 	public static void main(String[] args)
 	{
 		Scene scene = new TestScene();
-		Environment2D env = new Environment2D(scene);
+		new Environment2D(scene);
 	}
 }

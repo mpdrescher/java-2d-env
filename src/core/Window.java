@@ -26,6 +26,8 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 	Image dbImage;
 	Graphics dbg;
 	
+	JFrame frame;
+	
 	Environment2D env;
 	Renderer renderer;
 	
@@ -42,6 +44,12 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 		double scale = this.getHeight()/ ((double) (img.getHeight()));
 		int offX = (int) ((this.getWidth()-img.getWidth()*scale)/2);
 		g.drawImage(img, offX, 0, (int) (img.getWidth()*scale), (int) (img.getHeight()*scale), this);
+	
+		if (env.refreshSettings)
+		{
+			env.refreshSettings = false;
+			this.refreshSettings();
+		}
 	}
 
 	public void start()
@@ -50,35 +58,71 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 		th.start();
 	}
 
-	public Window(Environment2D env, Settings settings)
+	public Window(Environment2D env)
 	{
 		this.env = env;
+		buildFrame();
+		this.start();
+		this.run();
+	}
+	
+	public void buildFrame()
+	{
+		Settings settings = env.settings;
 		this.renderer = new Renderer(settings.canvasWidth, settings.canvasHeight);
 		String name = settings.title;
-		int width = settings.width;
-		int height = settings.height;
+		frame = new JFrame(name);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		JFrame frame = new JFrame(name);
-		frame.setBounds(d.width/2-width/2, d.height/2-height/2, width, height);
+		
+		int width;
+		int height;
+		if(settings.fullscreen)
+		{
+			System.out.println("fullscreen");
+			width = d.width;
+			height = d.height;
+			frame.setBounds(0, 0, width, height);
+			frame.setUndecorated(true);
+		}
+		else
+		{
+			width = settings.width;
+			height = settings.height;
+			frame.setBounds(d.width/2-width/2, d.height/2-height/2, width, height);
+		}
+		
+		if(this.getKeyListeners().length == 0)
+		{
+			addKeyListener(this);
+			addMouseListener(this);
+			addMouseMotionListener(this);
+			addComponentListener(this);
+		}
+		frame.getContentPane().add(this);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(settings.resizable);
+		frame.setVisible(true);
+		requestFocus();
+		
 		if (settings.showCursor)
 		{
 			BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 			Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 			frame.setCursor(blankCursor);
 		}
-		addKeyListener(this);
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		addComponentListener(this);
-		frame.getContentPane().add(this);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		int borderX = width - getWidth();
-		int borderY = height - getHeight();
-		frame.setBounds(d.width/2-(width+borderX)/2, d.height/2-(height+borderY)/2, width + borderX, height + borderY);
-		this.start();
-		this.run();
+		
+		if (!settings.fullscreen)
+		{
+			int borderX = width - getWidth();
+			int borderY = height - getHeight();
+			frame.setBounds(d.width/2-(width+borderX)/2, d.height/2-(height+borderY)/2, width + borderX, height + borderY);
+		}
+	}
+	
+	public void refreshSettings()
+	{
+		frame.dispose();
+		buildFrame();
 	}
 
 	public void update (Graphics g)
@@ -132,26 +176,26 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 	{
 		input.setMousePos(e.getX(), e.getY());
 		input.mousePressed();
-		env.getScene().onMouseEvent(input);
+		env.getScene().onMouseEvent(env, input, e);
 	}
 
 	public void mouseReleased(MouseEvent e)
 	{
 		input.setMousePos(e.getX(), e.getY());
 		input.mouseReleased();
-		env.getScene().onMouseEvent(input);
+		env.getScene().onMouseEvent(env, input, e);
 	}
 
 	public void keyPressed(KeyEvent e)
 	{
 		input.keyPressed(e.getKeyCode());
-		env.getScene().onKeyEvent(input);
+		env.getScene().onKeyEvent(env, input, e, false);
 	}
 
 	public void keyReleased(KeyEvent e)
 	{
 		input.keyReleased(e.getKeyCode());
-		env.getScene().onKeyEvent(input);
+		env.getScene().onKeyEvent(env, input, e, true);
 	}
 
 	public void keyTyped(KeyEvent e)
@@ -162,13 +206,13 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 	public void mouseDragged(MouseEvent e) 
 	{
 		input.setMousePos(e.getX(), e.getY());
-		env.getScene().onMouseEvent(input);
+		env.getScene().onMouseEvent(env, input, e);
 	}
 
 	public void mouseMoved(MouseEvent e) 
 	{
 		input.setMousePos(e.getX(), e.getY());
-		env.getScene().onMouseEvent(input);
+		env.getScene().onMouseEvent(env, input, e);
 	}
 
 	public void componentHidden(ComponentEvent e) {}

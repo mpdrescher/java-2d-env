@@ -1,11 +1,14 @@
 package test;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import core.Environment2D;
 import core.Input;
 import core.Scene;
 import core.ScreenObject;
+import core.Settings;
 
 public class TestScene implements Scene
 {
@@ -13,6 +16,8 @@ public class TestScene implements Scene
 	
 	FaceObject face = new FaceObject();
 	ScreenObject object = new ScreenObject(200, 300, 500, 100, "testinstr.png");
+	
+	boolean fullscreen = false;
 	
 	public TestScene()
 	{
@@ -37,12 +42,18 @@ public class TestScene implements Scene
 		}
 	}
 
-	public void onKeyEvent(Input in) 
+	public void onKeyEvent(Environment2D env, Input in, KeyEvent e, boolean released) 
 	{
-
+		if(in.isPressed(70) && !released)
+		{
+			fullscreen = !fullscreen;
+			Settings settings = new Settings();
+			settings.setFullscreen(fullscreen);
+			env.setSettings(settings);
+		}
 	}
 
-	public void onMouseEvent(Input in) 
+	public void onMouseEvent(Environment2D env, Input in, MouseEvent e) 
 	{
 		
 	}

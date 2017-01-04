@@ -8,11 +8,12 @@ package core;
  * An Environment is created, in which screen objects can be placed
  */
 
-public class Environment2D implements Runnable
+public class Environment2D
 {
 	Window window;
 	Scene scene;
 	Settings settings;
+	boolean refreshSettings = false;
 	
 	/*
 	 * Use default settings
@@ -22,7 +23,7 @@ public class Environment2D implements Runnable
 		this.scene = scene;
 		System.setProperty("sun.java2d.opengl", "true");
 		settings = new Settings();
-		new Thread(this).start();
+		window = new Window(this);
 	}
 	
 	public Environment2D(Scene scene, Settings settings)
@@ -30,7 +31,7 @@ public class Environment2D implements Runnable
 		this.scene = scene;
 		System.setProperty("sun.java2d.opengl", "true");
 		this.settings = settings;
-		new Thread(this).start();
+		window = new Window(this);
 	}
 	
 	public Scene getScene()
@@ -43,11 +44,9 @@ public class Environment2D implements Runnable
 		this.scene = scene;
 	}
 	
-	/*
-	 * Run a window in an external thread
-	 */
-	public void run() 
+	public void setSettings(Settings settings)
 	{
-		window = new Window(this, settings);
+		this.settings = settings;
+		this.refreshSettings = true;
 	}
 }
