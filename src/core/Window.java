@@ -1,3 +1,4 @@
+package core;
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -33,6 +34,8 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 	public void paint(Graphics g)
 	{
 		renderer.redraw(env, input, deltaTime);
+		env.getScene().update(env, input);
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		BufferedImage img = renderer.getImage();
@@ -65,6 +68,7 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 		}
 		addKeyListener(this);
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		addComponentListener(this);
 		frame.getContentPane().add(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,7 +150,7 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 
 	public void keyReleased(KeyEvent e)
 	{
-		input.keyPressed(e.getKeyCode());
+		input.keyReleased(e.getKeyCode());
 		env.getScene().onKeyEvent(input);
 	}
 

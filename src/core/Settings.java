@@ -1,3 +1,4 @@
+package core;
 public class Settings 
 {
 	int width;
@@ -13,7 +14,7 @@ public class Settings
 		height = 600;
 		showCursor = false;
 		title = "2dg";
-		canvasWidth = 1000;
-		canvasHeight = 1000;
+		canvasWidth = 800;
+		canvasHeight = 600;
 	}
 }

@@ -1,3 +1,4 @@
+package core;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -36,21 +37,94 @@ public class ScreenObject
 		this.anim = anim;
 	}
 	
-	public Animation getAnimation()
+	public void setX(int x)
+	{
+		this.x = x;
+	}
+	
+	public void setY(int y)
+	{
+		this.y = y;
+	}
+	
+	public void setPos(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	public int getX()
+	{
+		return x;
+	}
+	
+	public int getY()
+	{
+		return y;
+	}
+	
+	public void setWidth(int width)
+	{
+		this.width = width;
+	}
+	
+	public void setHeight(int height)
+	{
+		this.height = height;
+	}
+	
+	public void setBounds(int width, int height)
+	{
+		this.width = width;
+		this.height = height;
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	public void translate(int x, int y)
+	{
+		this.x += x;
+		this.y += y;
+	}
+	
+	public void transform(int w, int h)
+	{
+		this.width += w;
+		this.height += h;
+	}
+	
+	public Animation getAnim()
 	{
 		return anim;
 	}
 	
+	/*
+	 * called on update
+	 */
 	public void update(Scene scene, long delta)
 	{
 		
 	}
 	
+	/*
+	 * called on mouse event
+	 */
 	public void onMouseEvent(Scene scene, Input in)
 	{
 		
 	}
 	
+	/*
+	 * called on message from a scene
+	 */
 	public void sceneMessage(Scene sender, String message)
 	{
 		

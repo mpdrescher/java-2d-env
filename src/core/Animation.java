@@ -1,3 +1,4 @@
+package core;
 import java.awt.Image;
 
 public class Animation 

@@ -1,3 +1,4 @@
+package core;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -10,9 +11,6 @@ public class Renderer
 	public Renderer(int width, int height)
 	{
 		canvas = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics g = canvas.getGraphics();
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
 	}
 	
 	public void drawObject(Graphics g, ScreenObject obj)
@@ -24,6 +22,8 @@ public class Renderer
 	{
 		Graphics g = canvas.getGraphics();
 		ArrayList<ScreenObject> objects = env.scene.getObjects();
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for (int i = 0; i < objects.size(); i++)
 		{
 			drawObject(g, objects.get(i));

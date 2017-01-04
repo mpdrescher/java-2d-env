@@ -1,3 +1,4 @@
+package core;
 import java.util.ArrayList;
 
 public class Input 
@@ -31,11 +32,43 @@ public class Input
 	
 	public void keyReleased(int key)
 	{
-		keysPressed.remove(key);
+		for(int i = 0; i < keysPressed.size(); i++)
+		{
+			if (key == keysPressed.get(i))
+			{
+				keysPressed.remove(i);
+				return;
+			}
+		}
 	}
 	
 	public boolean isPressed(int key)
 	{
 		return keysPressed.contains(key);
+	}
+	
+	public ArrayList<Integer> getPressedKeys()
+	{
+		return keysPressed;
+	}
+	
+	public int getNumberOfKeysPressed()
+	{
+		return keysPressed.size();
+	}
+	
+	public int getMouseX()
+	{
+		return mouseX;
+	}
+	
+	public int getMouseY()
+	{
+		return mouseY;
+	}
+	
+	public boolean isMousePressed()
+	{
+		return mouseClicked;
 	}
 }

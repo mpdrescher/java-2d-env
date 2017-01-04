@@ -1,3 +1,4 @@
+package core;
 /*
  * Library for 2D graphics
  * 
