@@ -16,6 +16,7 @@ public class TestScene implements Scene
 	
 	FaceObject face = new FaceObject();
 	ScreenObject object = new ScreenObject(200, 300, 500, 100, "testinstr.png");
+	ScreenObject lowres = new ScreenObject(300, 50, 200, 200, "testlowres.png");
 	
 	boolean fullscreen = false;
 	
@@ -23,6 +24,7 @@ public class TestScene implements Scene
 	{
 		returnObjects.add(face);
 		returnObjects.add(object);
+		returnObjects.add(lowres);
 	}
 	
 	public ArrayList<ScreenObject> getObjects() 

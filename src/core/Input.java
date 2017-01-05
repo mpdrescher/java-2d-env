@@ -9,6 +9,11 @@ public class Input
 	
 	ArrayList<Integer> keysPressed = new ArrayList<Integer>();
 	
+	protected void clear()
+	{
+		keysPressed.clear();
+	}
+	
 	public void setMousePos(int x, int y)
 	{
 		mouseX = x;

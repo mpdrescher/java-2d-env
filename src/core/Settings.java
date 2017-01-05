@@ -16,7 +16,7 @@ public class Settings
 		height = 600;
 		fullscreen = false;
 		showCursor = false;
-		resizable = false;
+		resizable = true;
 		title = "2dg";
 		canvasWidth = 800;
 		canvasHeight = 600;

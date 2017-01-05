@@ -9,7 +9,8 @@ public class AnimationBuilder
 	
 	public AnimationBuilder pushImage(String imgPath)
 	{
-		images.add(Toolkit.getDefaultToolkit().getImage(imgPath));
+		Image image = Toolkit.getDefaultToolkit().getImage(imgPath);
+		images.add(image);
 		return this;
 	}
 	

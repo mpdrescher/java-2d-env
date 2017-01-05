@@ -24,6 +24,9 @@ public class Environment2D
 		System.setProperty("sun.java2d.opengl", "true");
 		settings = new Settings();
 		window = new Window(this);
+		window.buildFrame();
+		window.start();
+		window.run();		
 	}
 	
 	public Environment2D(Scene scene, Settings settings)
@@ -32,6 +35,9 @@ public class Environment2D
 		System.setProperty("sun.java2d.opengl", "true");
 		this.settings = settings;
 		window = new Window(this);
+		window.buildFrame();
+		window.start();
+		window.run();
 	}
 	
 	public Scene getScene()
@@ -47,6 +53,6 @@ public class Environment2D
 	public void setSettings(Settings settings)
 	{
 		this.settings = settings;
-		this.refreshSettings = true;
+		window.refreshSettings();
 	}
 }

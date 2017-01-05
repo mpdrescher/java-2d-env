@@ -41,14 +41,19 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		BufferedImage img = renderer.getImage();
-		double scale = this.getHeight()/ ((double) (img.getHeight()));
-		int offX = (int) ((this.getWidth()-img.getWidth()*scale)/2);
-		g.drawImage(img, offX, 0, (int) (img.getWidth()*scale), (int) (img.getHeight()*scale), this);
-	
-		if (env.refreshSettings)
+		
+		double vscale = this.getHeight()/ ((double) (img.getHeight()));
+		double hscale = this.getWidth()/ ((double) (img.getWidth()));
+		
+		if (vscale <= hscale)
 		{
-			env.refreshSettings = false;
-			this.refreshSettings();
+			int offX = (int) ((this.getWidth()-img.getWidth()*vscale)/2);
+			g.drawImage(img, offX, 0, (int) (img.getWidth()*vscale), (int) (img.getHeight()*vscale), this);
+		}
+		else
+		{
+			int offY = (int) ((this.getHeight()-img.getHeight()*hscale)/2);
+			g.drawImage(img, 0, offY, (int) (img.getWidth()*hscale), (int) (img.getHeight()*hscale), this);
 		}
 	}
 
@@ -61,9 +66,6 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 	public Window(Environment2D env)
 	{
 		this.env = env;
-		buildFrame();
-		this.start();
-		this.run();
 	}
 	
 	public void buildFrame()
@@ -103,20 +105,19 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 		frame.setResizable(settings.resizable);
 		frame.setVisible(true);
 		requestFocus();
-		
 		if (settings.showCursor)
 		{
 			BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 			Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 			frame.setCursor(blankCursor);
 		}
-		
 		if (!settings.fullscreen)
 		{
 			int borderX = width - getWidth();
 			int borderY = height - getHeight();
 			frame.setBounds(d.width/2-(width+borderX)/2, d.height/2-(height+borderY)/2, width + borderX, height + borderY);
 		}
+		input.clear();
 	}
 	
 	public void refreshSettings()
