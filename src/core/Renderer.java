@@ -23,6 +23,7 @@ public class Renderer
 	{
 		Graphics g = canvas.getGraphics();
 		ArrayList<ScreenObject> objects = env.scene.getObjects();
+		ArrayList<ScreenObject> particles = env.scene.getObjects();
 		ArrayList<ScreenText> text = env.scene.getText();
 		
 		g.setColor(Color.BLACK);
@@ -46,7 +47,16 @@ public class Renderer
 			}
 		}
 		
-		if (text != null)
+		if (particles != null)
+		{
+			for (int i = 0; i < particles.size(); i++)//particles
+			{
+				drawObject(g, objects.get(i));
+				objects.get(i).update(env.getScene(), delta);
+			}
+		}
+		
+		if (text != null)//text
 		{
 			for (int i = 0; i < text.size(); i++)
 			{

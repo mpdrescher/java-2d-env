@@ -46,7 +46,12 @@ public class TestScene implements Scene
 		return returnText;
 	}
 	
-	public void update(Environment2D env, Input in) 
+	public ArrayList<ScreenObject> getParticles() 
+	{
+		return null;
+	}
+	
+	public void update(Environment2D env, Input in, long delta) 
 	{
 		if(in.isPressed(68))
 		{

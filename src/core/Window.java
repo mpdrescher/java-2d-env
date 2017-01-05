@@ -36,7 +36,7 @@ public class Window extends Applet implements Runnable, MouseListener, MouseMoti
 	public void paint(Graphics g)
 	{
 		renderer.redraw(env, input, deltaTime);
-		env.getScene().update(env, input);
+		env.getScene().update(env, input, deltaTime);
 		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
